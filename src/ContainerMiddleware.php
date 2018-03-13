@@ -21,22 +21,22 @@ class ContainerMiddleware implements MiddlewareInterface
     private $container;
 
     /**
-     * The container alias to use to retrieve the middleware.
+     * The container id to use to retrieve the middleware.
      *
      * @var string
      */
-    private $alias;
+    private $id;
 
     /**
-     * Set up a container middleware with the given container and alias.
+     * Set up a container middleware with the given container and id.
      *
      * @param \Psr\Container\ContainerInterface $container
-     * @param string                            $alias
+     * @param string                            $id
      */
-    public function __construct(ContainerInterface $container, string $alias)
+    public function __construct(ContainerInterface $container, string $id)
     {
         $this->container = $container;
-        $this->alias = $alias;
+        $this->id = $id;
     }
 
     /**
@@ -49,7 +49,7 @@ class ContainerMiddleware implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        $middleware = $this->container->get($this->alias);
+        $middleware = $this->container->get($this->id);
 
         if ($middleware instanceof MiddlewareInterface) {
 
@@ -57,6 +57,6 @@ class ContainerMiddleware implements MiddlewareInterface
 
         }
 
-        throw new ContainerMiddlewareTypeException($this->alias, $middleware);
+        throw new ContainerMiddlewareTypeException($this->id, $middleware);
     }
 }
