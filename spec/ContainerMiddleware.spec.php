@@ -10,7 +10,7 @@ use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
 use Ellipse\Middleware\ContainerMiddleware;
-use Ellipse\Middleware\Exceptions\ContainerMiddlewareTypeException;
+use Ellipse\Middleware\Exceptions\ContainedMiddlewareTypeException;
 
 describe('ContainerMiddleware', function () {
 
@@ -59,7 +59,7 @@ describe('ContainerMiddleware', function () {
 
         context('when the value retrieved from the container is not an object implementing MiddlewareInterface', function () {
 
-            it('should throw a ContainerMiddlewareTypeException', function () {
+            it('should throw a ContainedMiddlewareTypeException', function () {
 
                 $this->container->get->with('SomeMiddleware')->returns('middleware');
 
@@ -69,7 +69,7 @@ describe('ContainerMiddleware', function () {
 
                 };
 
-                $exception = new ContainerMiddlewareTypeException('SomeMiddleware', 'middleware');
+                $exception = new ContainedMiddlewareTypeException('SomeMiddleware', 'middleware');
 
                 expect($test)->toThrow($exception);
 

@@ -17,7 +17,7 @@ The class `Ellipse\Middleware\ContainerMiddleware` takes an implementation of `P
 
 It can be useful in situations the container entry should be resolved at the time the request is processed.
 
-An `Ellipse\Middleware\Exceptions\ContainerMiddlewareTypeException` is thrown when the value retrieved from the container is not an object implementing `Psr\Http\Server\MiddlewareInterface`.
+An `Ellipse\Middleware\Exceptions\ContainedMiddlewareTypeException` is thrown when the value retrieved from the container is not an object implementing `Psr\Http\Server\MiddlewareInterface`.
 
 ```php
 <?php
