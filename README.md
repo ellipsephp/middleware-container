@@ -47,12 +47,14 @@ $response = $middleware->process($request, new SomeRequestHandler);
 
 ## Example using auto wiring
 
-It can be cumbersome to register every middleware in the container. Here is how to auto wire middleware classes using the `Ellipse\Container\ReflectionContainer` class from the [ellipse/container-reflection](https://github.com/ellipsephp/container-reflection) package.
+It can be cumbersome to register every middleware classes in the container. Here is how to auto wire middleware instances using the `Ellipse\Container\ReflectionContainer` class from the [ellipse/container-reflection](https://github.com/ellipsephp/container-reflection) package.
 
 ```php
 <?php
 
 namespace App;
+
+use Psr\Http\Server\MiddlewareInterface;
 
 use SomePsr11Container;
 
@@ -63,11 +65,14 @@ use Ellipse\Middleware\ContainerMiddleware;
 $container = new SomePsr11Container;
 
 // Decorate the container with a reflection container.
-$container = new ReflectionContainer($container);
+// Specify the middleware implementations can be auto wired.
+$reflection = new ReflectionContainer($container, [
+    MiddlewareInterface::class,
+]);
 
-// Create a container middleware with the Psr-11 container and a middleware class name.
-$middleware = new ContainerMiddleware($container, SomeMiddleware::class);
+// Create a container middleware with the reflection container and a middleware class name.
+$middleware = new ContainerMiddleware($reflection, SomeMiddleware::class);
 
-// A new instance of SomeMiddleware is built and its ->process() method is proxied.
+// An instance of SomeMiddleware is built and its ->process() method is proxied.
 $response = $middleware->process($request, new SomeRequestHandler);
 ```
